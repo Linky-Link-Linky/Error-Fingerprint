@@ -1,103 +1,275 @@
 name: CI
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
 
 jobs:
   test-efp-lite:
+    name: Test efp-lite
     runs-on: ubuntu-latest
     strategy:
       matrix:
         python-version: ["3.9", "3.10", "3.11", "3.12"]
+      fail-fast: false
     
     defaults:
       run:
-        working-directory: ./efp-lite
+        working-directory: ./efp-opensource/efp-lite
     
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       
-      - name: Set up Python
+      - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
+          cache: 'pip'
+          cache-dependency-path: |
+            ./efp-opensource/efp-lite/setup.py
+            ./efp-opensource/efp-lite/pyproject.toml
       
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
+          python -m pip install --upgrade pip setuptools wheel
           pip install -e ".[dev]"
+      
+      - name: Validate code formatting
+        run: |
+          ruff check --output-format=github .
+          ruff format --check .
+      
+      - name: Run type checking
+        run: |
+          mypy src/ --strict
       
       - name: Run tests
         run: |
-          pytest --cov=efp_lite --cov-report=xml --cov-report=term-missing
+          pytest --cov=efp_lite --cov-report=xml --cov-report=term-missing --cov-report=html -v
       
       - name: Upload coverage to Codecov
         if: matrix.python-version == '3.11'
-          uses: codecov/codecov-action@v4
-          with:
-            files: ./efp-lite/coverage.xml
-            flags: efp-lite
-            name: efp-lite-coverage
+        uses: codecov/codecov-action@v4
+        with:
+          files: ./efp-opensource/efp-lite/coverage.xml
+          flags: efp-lite
+          name: efp-lite-coverage
+          fail_ci_if_error: false
 
   test-efp-fixtures:
+    name: Test efp-fixtures
     runs-on: ubuntu-latest
     strategy:
       matrix:
         python-version: ["3.9", "3.10", "3.11", "3.12"]
+      fail-fast: false
     
     defaults:
       run:
-        working-directory: ./efp-fixtures
+        working-directory: ./efp-opensource/efp-fixtures
     
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       
-      - name: Set up Python
+      - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
+          cache: 'pip'
+          cache-dependency-path: |
+            ./efp-opensource/efp-fixtures/setup.py
+            ./efp-opensource/efp-fixtures/pyproject.toml
       
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
+          python -m pip install --upgrade pip setuptools wheel
           pip install -e ".[dev]"
+      
+      - name: Validate code formatting
+        run: |
+          ruff check --output-format=github .
+          ruff format --check .
+      
+      - name: Run type checking
+        run: |
+          mypy src/ --strict
       
       - name: Run tests
         run: |
-          pytest --cov=efp_fixtures --cov-report=xml --cov-report=term-missing
+          pytest --cov=efp_fixtures --cov-report=xml --cov-report=term-missing --cov-report=html -v
       
       - name: Upload coverage to Codecov
         if: matrix.python-version == '3.11'
-          uses: codecov/codecov-action@v4
-          with:
-            files: ./efp-fixtures/coverage.xml
-            flags: efp-fixtures
-            name: efp-fixtures-coverage
+        uses: codecov/codecov-action@v4
+        with:
+          files: ./efp-opensource/efp-fixtures/coverage.xml
+          flags: efp-fixtures
+          name: efp-fixtures-coverage
+          fail_ci_if_error: false
 
   validate-governance:
+    name: Validate Governance
     runs-on: ubuntu-latest
+    
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       
-      - name: Validate governance files
+      - name: Check required files exist
         run: |
-          # Check if all required files exist
-          required_files=("CODE_OF_CONDUCT.md" "CONTRIBUTING.md" "LICENSE" "SECURITY.md")
+          echo "Checking governance files..."
+          required_files=(
+            "CODE_OF_CONDUCT.md"
+            "CONTRIBUTING.md"
+            "LICENSE"
+            "SECURITY.md"
+            "README.md"
+          )
+          
+          missing_files=()
           for file in "${required_files[@]}"; do
-            if [ ! -f "$file" ]; then
+            if [ ! -f "efp-opensource/$file" ]; then
               echo "❌ Missing required file: $file"
-              exit 1
+              missing_files+=("$file")
+            else
+              echo "✅ Found: $file"
             fi
-            echo "✅ Found: $file"
           done
+          
+          if [ ${#missing_files[@]} -gt 0 ]; then
+            echo "Missing files: ${missing_files[*]}"
+            exit 1
+          fi
       
-      - name: Validate GitHub templates
+      - name: Check GitHub templates exist
         run: |
-          # Check if GitHub templates exist
-          template_files=(".github/ISSUE_TEMPLATE/bug_report.md" ".github/ISSUE_TEMPLATE/feature_request.md" ".github/ISSUE_TEMPLATE/security_vulnerability.md" ".github/pull_request_template.md")
+          echo "Checking GitHub templates..."
+          template_files=(
+            ".github/ISSUE_TEMPLATE/bug_report.md"
+            ".github/ISSUE_TEMPLATE/feature_request.md"
+            ".github/ISSUE_TEMPLATE/security_vulnerability.md"
+            ".github/pull_request_template.md"
+            ".github/ISSUE_TEMPLATE/config.yml"
+          )
+          
+          missing_templates=()
           for file in "${template_files[@]}"; do
             if [ ! -f "$file" ]; then
               echo "❌ Missing template file: $file"
-              exit 1
+              missing_templates+=("$file")
+            else
+              echo "✅ Found template: $file"
             fi
-            echo "✅ Found template: $file"
           done
+          
+          if [ ${#missing_templates[@]} -gt 0 ]; then
+            echo "Missing templates: ${missing_templates[*]}"
+            exit 1
+          fi
+      
+      - name: Validate workflow syntax
+        run: |
+          echo "Validating workflow syntax..."
+          if command -v yamllint; then
+            yamllint .github/workflows/ci.yml
+          else
+            echo "yamllint not available, skipping YAML validation"
+          fi
+      
+      - name: Check links in README
+        run: |
+          echo "Checking README links..."
+          cd efp-opensource
+          if command -v markdown-link-check; then
+            markdown-link-check README.md
+          else
+            echo "markdown-link-check not available, skipping link validation"
+          fi
+
+  build-and-test-docker:
+    name: Build and Test Docker
+    runs-on: ubuntu-latest
+    needs: [test-efp-lite]
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      
+      - name: Build efp-lite Docker image
+        run: |
+          cd efp-opensource/efp-lite
+          docker build -t efp-lite:test .
+      
+      - name: Test Docker image
+        run: |
+          container_id=$(docker run -d -p 8080:8080 efp-lite:test)
+          sleep 10
+          
+          # Test health endpoint
+          curl -f http://localhost:8080/health || exit 1
+          
+          # Test fingerprint endpoint
+          curl -f -X POST http://localhost:8080/v1/fingerprint \
+            -H "Content-Type: application/json" \
+            -d '{"message": "KeyError: '\''test'\'' not found"}' || exit 1
+          
+          docker stop $container_id
+          docker rm $container_id
+
+  security-scan:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    needs: [test-efp-lite, test-efp-fixtures]
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+      
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v2
+        if: always()
+        with:
+          sarif_file: 'trivy-results.sarif'
+
+  notify:
+    name: Notify Status
+    runs-on: ubuntu-latest
+    needs: [test-efp-lite, test-efp-fixtures, validate-governance, build-and-test-docker, security-scan]
+    if: always()
+    
+    steps:
+      - name: Notify success
+        if: ${{ needs.test-efp-lite.result == 'success' && needs.test-efp-fixtures.result == 'success' && needs.validate-governance.result == 'success' && needs.build-and-test-docker.result == 'success' }}
+        run: |
+          echo "✅ All checks passed successfully!"
+      
+      - name: Notify failure
+        if: ${{ needs.test-efp-lite.result == 'failure' || needs.test-efp-fixtures.result == 'failure' || needs.validate-governance.result == 'failure' || needs.build-and-test-docker.result == 'failure' }}
+        run: |
+          echo "❌ Some checks failed!"
+          exit 1
