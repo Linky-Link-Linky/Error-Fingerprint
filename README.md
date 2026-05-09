@@ -120,18 +120,18 @@ We welcome contributions to all three components:
 
 ```bash
 # Clone the entire organization
-git clone https://github.com/errorfingerprint/efp-opensource.git
-cd efp-opensource
+git clone https://github.com/Linky-Link-Linky/Error-Fingerprint.git
+cd Error-Fingerprint
 
 # Run tests for all components
 pytest
 
 # Start efp-lite locally
-cd efp-lite
+cd efp-opensource/efp-lite
 python -m efp_lite.server
 
 # Validate fixtures
-cd efp-fixtures
+cd efp-opensource/efp-fixtures
 pytest tests/
 ```
 
