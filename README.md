@@ -12,10 +12,11 @@
 # Self-hostable engine for 5 languages
 docker run -p 8080:8080 ghcr.io/errorfingerprint/efp-lite
 
-# Full API with 15 languages
-curl -X POST https://api.errorfingerprint.dev/fingerprint \
+# Full API with 15 languages (via RapidAPI)
+curl -X POST "https://error-fingerprint-api.p.rapidapi.com/fingerprint" \
+  -H "X-RapidAPI-Key: YOUR_RAPIDAPI_KEY" \
+  -H "X-RapidAPI-Host: error-fingerprint-api.p.rapidapi.com" \
   -H "Content-Type: application/json" \
-  -H "X-API-Key: YOUR_API_KEY" \
   -d '{"message": "TypeError: Cannot read properties of undefined (reading '\''id'\'')"}'
 
 # Dataset for testing and training
