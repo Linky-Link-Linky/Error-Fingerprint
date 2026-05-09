@@ -143,5 +143,5 @@ All components are released under the MIT License. See individual repository LIC
 Built by [Error Fingerprint](https://errorfingerprint.dev) ·
 [efp-lite](https://github.com/errorfingerprint/efp-lite) ·
 [efp-fixtures](https://github.com/errorfingerprint/efp-fixtures) ·
-[Full API](https://errorfingerprint.dev) ·
+[Full API](https://rapidapi.com/Daymo-W5ovDZJrz/api/error-fingerprint-api) ·
 [MIT License](https://opensource.org/licenses/MIT)
