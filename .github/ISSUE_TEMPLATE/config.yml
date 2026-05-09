@@ -1,0 +1,17 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 🚀 Feature Request
+    url: https://github.com/Linky-Link-Linky/Error-Fingerprint/issues/new?assignees=&labels=enhancement%2Cneeds-triage&template=feature_request.md
+    about: Suggest a new feature or enhancement
+  - name: 🐛 Bug Report
+    url: https://github.com/Linky-Link-Linky/Error-Fingerprint/issues/new?assignees=&labels=bug%2Cneeds-triage&template=bug_report.md
+    about: File a bug report
+  - name: 🔒 Security Vulnerability
+    url: https://github.com/Linky-Link-Linky/Error-Fingerprint/issues/new?assignees=&labels=security%2Cprivate&template=security_vulnerability.md
+    about: Report a security vulnerability (private)
+  - name: 💬 General Discussion
+    url: https://github.com/Linky-Link-Linky/Error-Fingerprint/discussions
+    about: Ask questions or start a discussion
+  - name: 📖 Documentation Issue
+    url: https://github.com/Linky-Link-Linky/Error-Fingerprint/discussions/categories/documentation
+    about: Report documentation problems
