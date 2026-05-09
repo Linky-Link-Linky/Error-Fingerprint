@@ -70,14 +70,13 @@ curl -X POST http://localhost:8080/v1/fingerprint \
 
 **Use the full API:**
 ```bash
-# Sign up for free API key (no credit card)
-# Visit: https://errorfingerprint.dev
-
-# Use the API
-curl -X POST https://api.errorfingerprint.dev/v1/fingerprint \
-  -H "X-API-Key: efp_your_key_here" \
+curl -X POST "https://error-fingerprint-api.p.rapidapi.com/fingerprint" \
+  -H "X-RapidAPI-Key: YOUR_RAPIDAPI_KEY" \
+  -H "X-RapidAPI-Host: error-fingerprint-api.p.rapidapi.com" \
   -H "Content-Type: application/json" \
-  -d '{"message": "TypeError: Cannot read properties of undefined (reading '\''id'\'')"}'
+  -d '{
+    "message": "TypeError: Cannot read properties of undefined (reading '\''userId'\'')\n    at AuthMiddleware.verify (auth.middleware.js:38:24)"
+  }'
 ```
 
 **Load the fixture dataset:**
