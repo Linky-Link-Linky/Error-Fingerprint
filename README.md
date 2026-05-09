@@ -28,7 +28,7 @@ This is the open source organization for Error Fingerprint. We provide three com
 |-----------|------------|------------------|
 | [efp-lite](https://github.com/errorfingerprint/efp-lite) | Self-hostable fingerprinting engine for 5 languages. One Docker command. | You want to run it yourself, free, no API key |
 | [efp-fixtures](https://github.com/errorfingerprint/efp-fixtures) | 5,212 labeled real-world error strings across 15 languages | You're building or testing an error parser |
-| [Error Fingerprint API](https://errorfingerprint.dev) | Fully managed API. 15 languages. < 8ms p99. Free tier. | You want 15 languages, similarity clustering, and 99.9% uptime |
+| [Error Fingerprint API](https://rapidapi.com/Daymo-W5ovDZJrz/api/error-fingerprint-api) | Fully managed API. 15 languages. < 8ms p99. Free tier. | You want 15 languages, similarity clustering, and 99.9% uptime |
 
 Choose efp-lite if you are a solo developer or running a side project. It handles the 5 most common languages (JavaScript, Python, Java, Go, Generic) with one Docker command and no API key required. The engine is stateless, fast, and produces the same stable fingerprints as the full API.
 
