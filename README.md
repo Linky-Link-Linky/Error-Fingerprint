@@ -26,6 +26,136 @@ python -c "from efp_fixtures import load_all; print(len(load_all()), 'errors loa
 
 This is the open source organization for Error Fingerprint. We provide three components that work together: a self-hostable engine for developers who want to run it themselves, a comprehensive dataset of real-world errors for testing and training, and a fully managed API for production use cases.
 
+## 🚀 Getting Started
+
+### Option 1: Self-Host with efp-lite (5 Languages)
+
+Perfect for developers who want to run their own instance with no API keys.
+
+```bash
+# Pull and run the engine
+docker run -p 8080:8080 ghcr.io/errorfingerprint/efp-lite
+
+# Test it works
+curl -X POST http://localhost:8080/v1/fingerprint \
+  -H "Content-Type: application/json" \
+  -d '{"message": "KeyError: '\''user_id'\'' not found in session dict"}'
+```
+
+**Response:**
+```json
+{
+  "fingerprint": "key_error_a3f2c1d8",
+  "template": "KeyError: '{key}' not found in {container}",
+  "language": "python",
+  "framework": null,
+  "category": "key_error",
+  "severity": "error",
+  "variables": {
+    "key": "user_id",
+    "container": "session dict"
+  },
+  "processing_ms": 3
+}
+```
+
+### Option 2: Use Full API via RapidAPI (15 Languages)
+
+Best for production use cases with all language support and enterprise features.
+
+```bash
+# Get your free API key (no credit card required)
+# Visit: https://rapidapi.com/Daymo-W5ovDZJrz/api/error-fingerprint-api
+
+# Use the API
+curl -X POST "https://error-fingerprint-api.p.rapidapi.com/fingerprint" \
+  -H "X-RapidAPI-Key: YOUR_RAPIDAPI_KEY" \
+  -H "X-RapidAPI-Host: error-fingerprint-api.p.rapidapi.com" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "message": "TypeError: Cannot read properties of undefined (reading '\''userId'\'')\n    at AuthMiddleware.verify (auth.middleware.js:38:24)"
+  }'
+```
+
+**Response:**
+```json
+{
+  "fingerprint": "js_null_ref_a3f2c1d8",
+  "template": "Cannot read properties of {type} (reading '\''{property}'\'')",
+  "language": "javascript",
+  "framework": "express",
+  "category": "null_reference",
+  "severity": "error",
+  "variables": {
+    "type": "undefined",
+    "property": "userId"
+  },
+  "similar_to": ["js_null_ref_b2f1e9c7"],
+  "processing_ms": 4
+}
+```
+
+### Option 3: Use Dataset for Testing/Training
+
+Ideal for building your own error parser or testing existing implementations.
+
+```python
+# Install the dataset
+pip install efp-fixtures
+
+# Load all 5,212 errors
+from efp_fixtures import load_all
+errors = load_all()
+
+# Load specific languages
+python_errors = load_language("python")
+network_errors = load_category("network_error")
+
+print(f"Loaded {len(errors)} total errors")
+print(f"Python errors: {len(python_errors)}")
+
+# Example error from dataset
+print(python_errors[0])
+# Output: {
+#   "message": "KeyError: 'user_id' not found in session dict",
+#   "language": "python",
+#   "category": "key_error",
+#   "severity": "error",
+#   "template": "KeyError: '{key}' not found in {container}",
+#   "variables": {"key": "user_id", "container": "session dict"}
+# }
+```
+
+## 🎯 Choose Your Path
+
+| Use Case | Recommended Option | Why |
+|-----------|-------------------|-----|
+| **Personal Projects** | efp-lite | Free, no API keys, 5 common languages |
+| **Side Projects** | efp-lite | Docker-ready, fast, self-hosted |
+| **Production Apps** | Full API | 15 languages, 99.9% uptime, similarity clustering |
+| **Error Parser Development** | efp-fixtures | 5,212 labeled examples, ground truth data |
+| **Learning/Research** | All Components | Study algorithms, contribute to open source |
+
+## 🔧 Quick Test
+
+Try any error message right now:
+
+**efp-lite (localhost:8080):**
+```bash
+curl -X POST http://localhost:8080/v1/fingerprint \
+  -H "Content-Type: application/json" \
+  -d '{"message": "YOUR_ERROR_HERE"}'
+```
+
+**Full API (RapidAPI):**
+```bash
+curl -X POST "https://error-fingerprint-api.p.rapidapi.com/fingerprint" \
+  -H "X-RapidAPI-Key: YOUR_RAPIDAPI_KEY" \
+  -H "X-RapidAPI-Host: error-fingerprint-api.p.rapidapi.com" \
+  -H "Content-Type: application/json" \
+  -d '{"message": "YOUR_ERROR_HERE"}'
+```
+
 | Component | What it is | Start here if... |
 |-----------|------------|------------------|
 | [efp-lite](https://github.com/errorfingerprint/efp-lite) | Self-hostable fingerprinting engine for 5 languages. One Docker command. | You want to run it yourself, free, no API key |
