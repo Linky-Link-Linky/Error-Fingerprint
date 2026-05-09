@@ -1,0 +1,47 @@
+[project]
+name = "efp-lite"
+version = "0.1.0"
+description = "Self-hostable reference engine for error fingerprinting (5 languages)"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "MIT"}
+keywords = ["error", "fingerprint", "self-hosted", "opensource", "engine"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+dependencies = [
+    "fastapi>=0.100.0",
+    "uvicorn[standard]>=0.20.0",
+    "pydantic>=2.0.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest", "pytest-asyncio", "httpx", "ruff", "mypy"]
+
+[project.urls]
+Homepage = "https://github.com/errorfingerprint/efp-lite"
+Documentation = "https://docs.errorfingerprint.dev/lite"
+Repository = "https://github.com/errorfingerprint/efp-lite"
+Issues = "https://github.com/errorfingerprint/efp-lite/issues"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.ruff]
+line-length = 88
+target-version = "py39"
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true

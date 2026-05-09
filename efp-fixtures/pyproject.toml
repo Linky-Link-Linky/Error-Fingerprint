@@ -1,0 +1,47 @@
+[project]
+name = "efp-fixtures"
+version = "0.1.0"
+description = "5,000+ labeled real-world error corpus for fingerprinting research"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "CC0-1.0"}
+keywords = ["error", "fingerprint", "dataset", "fixtures", "research", "machine-learning"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "License :: OSI Approved :: Creative Commons Zero v1.0 Universal",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+dependencies = [
+    "pydantic>=2.0.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest", "ruff", "mypy"]
+
+[project.urls]
+Homepage = "https://github.com/errorfingerprint/efp-fixtures"
+Documentation = "https://docs.errorfingerprint.dev/fixtures"
+Repository = "https://github.com/errorfingerprint/efp-fixtures"
+Issues = "https://github.com/errorfingerprint/efp-fixtures/issues"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.ruff]
+line-length = 88
+target-version = "py39"
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
