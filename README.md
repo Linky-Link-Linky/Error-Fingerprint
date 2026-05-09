@@ -2,12 +2,6 @@
 
 > Production-ready error fingerprinting. Self-hostable engine. 5,212 labeled fixtures. Full API.
 
-![License](https://img.shields.io/badge/license-MIT-blue)
-![efp-lite](https://img.shields.io/badge/efp--lite-self--hostable-green)
-![Fixtures](https://img.shields.io/badge/fixtures-5%2C212-brightgreen)
-![Languages](https://img.shields.io/badge/languages-15-blue)
-![CI](https://img.shields.io/github/actions/workflow/status/errorfingerprint/efp-opensource/ci.yml)
-
 ```bash
 # Self-hostable engine for 5 languages
 docker run -p 8080:8080 ghcr.io/errorfingerprint/efp-lite
@@ -26,7 +20,7 @@ python -c "from efp_fixtures import load_all; print(len(load_all()), 'errors loa
 
 This is the open source organization for Error Fingerprint. We provide three components that work together: a self-hostable engine for developers who want to run it themselves, a comprehensive dataset of real-world errors for testing and training, and a fully managed API for production use cases.
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Option 1: Self-Host with efp-lite (5 Languages)
 
@@ -126,7 +120,7 @@ print(python_errors[0])
 # }
 ```
 
-## 🎯 Choose Your Path
+## Choose Your Path
 
 | Use Case | Recommended Option | Why |
 |-----------|-------------------|-----|
@@ -136,7 +130,7 @@ print(python_errors[0])
 | **Error Parser Development** | efp-fixtures | 5,212 labeled examples, ground truth data |
 | **Learning/Research** | All Components | Study algorithms, contribute to open source |
 
-## 🔧 Quick Test
+## Quick Test
 
 Try any error message right now:
 
