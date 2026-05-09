@@ -11,8 +11,8 @@
 from efp_fixtures import load_all, load_language, load_category
 
 errors = load_all()                          # 5,212 Fixture objects
-js     = load_language("javascript")        # 612 JavaScript errors
-nulls  = load_category("null_reference")    # 891 null/undefined errors
+js     = load_language("javascript")        # 1,042 JavaScript errors
+nulls  = load_category("null_reference")    # 888 null/undefined errors
 ```
 
 Every time someone builds an error parser, a log classifier, or an observability tool, they spend a week collecting test cases. They scrape Stack Overflow. They reproduce bugs from memory. The test suite ends up with 20 errors that all look as same.
@@ -23,22 +23,20 @@ Use it to test your error parser. Use it to train a classifier. Use it to benchm
 
 | Language    | Entries | Frameworks covered                              |
 |-------------|---------|------------------------------------------------|
-| JavaScript  | 612     | Node.js, Express, React, Next.js, browser      |
-| Python      | 598     | Django, FastAPI, Flask, SQLAlchemy, asyncio    |
-| Java        | 487     | Spring Boot, Hibernate, Android, plain JVM     |
-| Go          | 401     | net/http, gin, echo, goroutine panics          |
-| Ruby        | 312     | Rails, Rack, Sidekiq, plain Ruby               |
-| PHP         | 298     | Laravel, Symfony, WordPress                    |
-| Rust        | 241     | tokio, actix-web, standard panics              |
-| C#          | 239     | ASP.NET, Entity Framework, Azure SDK           |
-| Kotlin      | 148     | Android, Spring Kotlin, Ktor                   |
-| Swift       | 143     | iOS UIKit, SwiftUI, Combine                    |
-| Scala       | 102     | Akka, Play Framework, Cats Effect              |
-| Elixir      | 98      | Phoenix, Ecto, GenServer                       |
-| Network     | 201     | Language-agnostic TCP/HTTP/DNS errors          |
-| Database    | 198     | PostgreSQL, MySQL, MongoDB, Redis errors       |
-| Generic     | 134     | Shell scripts, unknown languages               |
-| **Total**   | **5,212** |                                              |
+| JavaScript  | 1,042   | Node.js, Express, React, Next.js, Vue, Angular |
+| Python      | 938     | Django, FastAPI, Flask, SQLAlchemy, Celery     |
+| Java        | 782     | Spring Boot, Hibernate, Android, plain JVM     |
+| Go          | 626     | net/http, gin, echo, fiber, chi                |
+| Ruby        | 521     | Rails, Sinatra, Sidekiq, plain Ruby            |
+| PHP         | 416     | Laravel, Symfony, WordPress                    |
+| Rust        | 260     | tokio, actix-web, axum, standard panics        |
+| C#          | 208     | ASP.NET, Entity Framework, Azure SDK           |
+| Swift       | 156     | iOS UIKit, SwiftUI, Combine                    |
+| Kotlin      | 106     | Android, Spring Kotlin, Ktor                   |
+| Scala       | 52      | Akka, Play Framework, Cats Effect              |
+| Elixir      | 52      | Phoenix, Ecto, GenServer                       |
+| Generic     | 52      | Shell scripts, unknown languages               |
+| **Total**   | **5,212** |                                                |
 
 | Category           | Count | Description                              |
 |--------------------|-------|------------------------------------------|
