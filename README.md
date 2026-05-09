@@ -1,4 +1,4 @@
-# Error Fingerprint Open Source
+# Error Fingerprint 
 
 > Production-ready error fingerprinting. Self-hostable engine. 5,212 labeled fixtures. Full API.
 
