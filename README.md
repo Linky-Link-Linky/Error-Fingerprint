@@ -13,8 +13,9 @@
 docker run -p 8080:8080 ghcr.io/errorfingerprint/efp-lite
 
 # Full API with 15 languages
-curl -X POST https://api.errorfingerprint.dev/v1/fingerprint \
+curl -X POST https://api.errorfingerprint.dev/fingerprint \
   -H "Content-Type: application/json" \
+  -H "X-API-Key: YOUR_API_KEY" \
   -d '{"message": "TypeError: Cannot read properties of undefined (reading '\''id'\'')"}'
 
 # Dataset for testing and training
