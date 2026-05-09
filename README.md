@@ -1,4 +1,4 @@
-# Error Fingerprint Open Source
+# Error Fingerprint Engine
 
 Normalize any error message into a stable fingerprint across 15 programming languages.
 
